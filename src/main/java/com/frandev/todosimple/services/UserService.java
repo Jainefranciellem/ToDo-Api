@@ -55,9 +55,4 @@ public class UserService {
             throw new RuntimeException("Não é possível excluir pois há entidades relacionadas!");
         }
     }
-
-    // public Task findByTasks(Long id) {
-    //     List<Task> taks = this.taskRepository.findByUser_Id(id);
-    //     return taks;
-    // }
 }
