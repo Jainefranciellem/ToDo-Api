@@ -2,12 +2,10 @@ package com.frandev.todosimple.services;
 
 import java.util.Optional;
 
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.frandev.todosimple.models.Task;
 import com.frandev.todosimple.models.User;
 import com.frandev.todosimple.repositories.TaskRepository;
 import com.frandev.todosimple.repositories.UserRepository;
