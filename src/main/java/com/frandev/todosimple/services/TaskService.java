@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.frandev.todosimple.models.Task;
 import com.frandev.todosimple.models.User;
 import com.frandev.todosimple.repositories.TaskRepository;
+import com.frandev.todosimple.services.exceptions.ObjectBindingViolationException;
 
 @Service
 public class TaskService {
@@ -51,7 +52,7 @@ public class TaskService {
         try {
             this.taskRepository.deleteById(id);
         } catch (Exception e) {
-            throw new RuntimeException("Não é possível excluir pois há entidades relacionadas!");
+            throw new ObjectBindingViolationException("Não é possível excluir pois há entidades relacionadas!");
         }
     }
 

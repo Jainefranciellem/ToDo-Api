@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.frandev.todosimple.models.User;
 import com.frandev.todosimple.repositories.TaskRepository;
 import com.frandev.todosimple.repositories.UserRepository;
+import com.frandev.todosimple.services.exceptions.ObjectBindingViolationException;
+import com.frandev.todosimple.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class UserService {
@@ -20,7 +22,7 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> user = this.userRepository.findById(id);
-        return user.orElseThrow(() -> new RuntimeException(
+        return user.orElseThrow(() -> new ObjectNotFoundException(
             "User not found with id: " + id + ", Tipo:" + User.class.getName()
         ));
     }
@@ -50,7 +52,7 @@ public class UserService {
         try {
             this.userRepository.deleteById(id);
         } catch (Exception e) {
-            throw new RuntimeException("Não é possível excluir pois há entidades relacionadas!");
+            throw new ObjectBindingViolationException("Não é possível excluir pois há entidades relacionadas!");
         }
     }
 }
