@@ -3,6 +3,7 @@ package com.frandev.todosimple.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,8 @@ import com.frandev.todosimple.services.exceptions.ObjectNotFoundException;
 @Service
 public class UserService {
     // O Autowired é uma anotação que informa ao Spring que ele deve injetar uma instância de uma classe em um atributo.
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -30,6 +33,7 @@ public class UserService {
     @Transactional
     public User createUser(User user) {
         user.setId(null);
+        user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
         user = this.userRepository.save(user);
         this.taskRepository.saveAll(user.getTasks());
         return user;
@@ -39,13 +43,10 @@ public class UserService {
     public User updateUser(User user) {
         User newUser = findById(user.getId());
         newUser.setPassword(user.getPassword());
+        newUser.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+        
         return this.userRepository.save(newUser);
     }
-
-    // public void delete(Long id) {
-    //     User findUser = findById(id);
-    //     this.userRepository.delete(findUser);
-    // }
 
     public void delete(Long id) {
         findById(id);
